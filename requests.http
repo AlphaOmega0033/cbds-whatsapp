@@ -1,0 +1,93 @@
+### Replace TOKEN, PHONE_NUMBER_ID, RECIPIENT_E164
+
+### Send plain text
+POST https://graph.facebook.com/v21.0/PHONE_NUMBER_ID/messages
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "messaging_product": "whatsapp",
+  "to": "RECIPIENT_E164",
+  "type": "text",
+  "text": { "preview_url": false, "body": "Hello from Cross-Border Dental Solutions 👋" }
+}
+
+### Interactive LIST (menu)
+POST https://graph.facebook.com/v21.0/PHONE_NUMBER_ID/messages
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "messaging_product": "whatsapp",
+  "to": "RECIPIENT_E164",
+  "type": "interactive",
+  "interactive": {
+    "type": "list",
+    "header": { "type":"text", "text":"Cross-Border Dental Solutions" },
+    "body": { "text":"Hi! 👋 To get you a quick estimate, choose below or type your question.\n\n¡Hola! 👋 Para un estimado rápido, elija abajo o escriba su consulta." },
+    "footer": { "text": "Los Algodones • Certified Dentists • Free Airport Pickup" },
+    "action": {
+      "button": "Select / Seleccionar",
+      "sections": [{
+        "title":"Treatments / Tratamientos",
+        "rows":[
+          {"id":"t_implants","title":"Dental Implants"},
+          {"id":"t_allon4","title":"All-on-4 / All-on-6"},
+          {"id":"t_crowns","title":"Crowns / Bridges"},
+          {"id":"t_veneers","title":"Veneers"},
+          {"id":"t_dentures","title":"Dentures / Partials"},
+          {"id":"t_root","title":"Root Canal"},
+          {"id":"t_clean","title":"Cleaning / Checkup"},
+          {"id":"t_other","title":"Other / Not sure"}
+        ]
+      },{
+        "title":"Status / Estado",
+        "rows":[
+          {"id":"s_have_xrays","title":"I have X-rays"},
+          {"id":"s_no_xrays","title":"I don’t have X-rays"}
+        ]
+      }]
+    }
+  }
+}
+
+### X-ray / Photos Buttons
+POST https://graph.facebook.com/v21.0/PHONE_NUMBER_ID/messages
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "messaging_product":"whatsapp",
+  "to":"RECIPIENT_E164",
+  "type":"interactive",
+  "interactive":{
+    "type":"button",
+    "body":{"text":"Do you have X-rays/photos?\n¿Tiene radiografías o fotos?"},
+    "action":{"buttons":[
+      {"type":"reply","reply":{"id":"b_upload_xrays","title":"Upload X-rays"}},
+      {"type":"reply","reply":{"id":"b_send_photos","title":"Send photos"}},
+      {"type":"reply","reply":{"id":"b_book_exam","title":"Book in-clinic exam"}}
+    ]}
+  }
+}
+
+### Template (after 24h; create in Manager first)
+POST https://graph.facebook.com/v21.0/PHONE_NUMBER_ID/messages
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "messaging_product":"whatsapp",
+  "to":"RECIPIENT_E164",
+  "type":"template",
+  "template":{
+    "name":"price_prelim_en",
+    "language":{"code":"en_US"},
+    "components":[
+      {"type":"body","parameters":[
+        {"type":"text","text":"$2,500"},
+        {"type":"text","text":"$4,200"}
+      ]}
+    ]
+  }
+}
